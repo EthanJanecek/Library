@@ -12,7 +12,8 @@ interface ISessionState {
     books: Book[],
     videoGames: any[],
     moviesTV: any[],
-    music: any[]
+    music: any[],
+    signedIn: boolean
 }
 
 const initialSessionState: ISessionState = {
@@ -20,19 +21,32 @@ const initialSessionState: ISessionState = {
     books: [],
     videoGames: [],
     moviesTV: [],
-    music: []
+    music: [],
+    signedIn: false
 };
 
 type HandledActions = Readonly<
-      Action<'SELECT_INSTRUMENT', { instrument: string }>
+      Action<'SET_SIGNED_IN', { signedIn: boolean }> |
+      Action<'SET_USER', { user: User }>
 >;
 
 const buildDispatch = (dispatch: Dispatch<HandledActions>) => ({
-    
+    setSignedIn: (signedIn: boolean) => {
+        dispatch({ type: 'SET_SIGNED_IN', payload: { signedIn }});
+    },
+    setUser: (user: User) => {
+        dispatch({ type: 'SET_USER', payload: { user }});
+    },
 });
 
 const sessionReducer = (state: ISessionState, action: HandledActions): ISessionState => {
     switch(action.type) {
+        case 'SET_SIGNED_IN': {
+            return { ...state, signedIn: action.payload.signedIn };
+        }
+        case 'SET_USER': {
+            return { ...state, user: action.payload.user };
+        }
         default:
             return state;
     }

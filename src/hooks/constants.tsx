@@ -58,9 +58,9 @@ export const videoGameOptions = {
 };
 
 export interface User {
-    name: string;
-    id: number;
-    email: string;
+    NAME: string;
+    USER_ID: number;
+    EMAIL: string;
 }
 
 export interface Book {
