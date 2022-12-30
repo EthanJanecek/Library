@@ -1,6 +1,12 @@
 import React, { useReducer, Dispatch, useContext, createContext } from "react";
 import { Book, User } from "./constants";
 
+export enum Stages {
+    VIEWING,
+    SCANNING,
+    ADDING
+};
+
 export interface Action<TType extends string, TPayload = void> {
 	type: TType;
 	payload: TPayload;
@@ -13,7 +19,10 @@ interface ISessionState {
     videoGames: any[],
     moviesTV: any[],
     music: any[],
-    signedIn: boolean
+    signedIn: boolean,
+    barcode: string,
+    stage: Stages,
+    barcodeObject: any,
 }
 
 const initialSessionState: ISessionState = {
@@ -22,12 +31,18 @@ const initialSessionState: ISessionState = {
     videoGames: [],
     moviesTV: [],
     music: [],
-    signedIn: false
+    signedIn: false,
+    barcode: "",
+    stage: Stages.VIEWING,
+    barcodeObject: {},
 };
 
 type HandledActions = Readonly<
       Action<'SET_SIGNED_IN', { signedIn: boolean }> |
-      Action<'SET_USER', { user: User }>
+      Action<'SET_USER', { user: User }> |
+      Action<'SET_BARCODE', { barcode: string }> |
+      Action<'SET_STAGE', { stage: Stages }> |
+      Action<'SET_BARCODE_OBJECT', { barcodeObject: any }> 
 >;
 
 const buildDispatch = (dispatch: Dispatch<HandledActions>) => ({
@@ -36,6 +51,15 @@ const buildDispatch = (dispatch: Dispatch<HandledActions>) => ({
     },
     setUser: (user: User) => {
         dispatch({ type: 'SET_USER', payload: { user }});
+    },
+    setBarcode: (barcode: string) => {
+        dispatch({ type: 'SET_BARCODE', payload: { barcode }});
+    },
+    setStage: (stage: Stages) => {
+        dispatch({ type: 'SET_STAGE', payload: { stage }});
+    },
+    setBarcodeObject: (barcodeObject: any) => {
+        dispatch({ type: 'SET_BARCODE_OBJECT', payload: { barcodeObject }});
     },
 });
 
@@ -46,6 +70,15 @@ const sessionReducer = (state: ISessionState, action: HandledActions): ISessionS
         }
         case 'SET_USER': {
             return { ...state, user: action.payload.user };
+        }
+        case 'SET_BARCODE': {
+            return { ...state, barcode: action.payload.barcode };
+        }
+        case 'SET_STAGE': {
+            return { ...state, stage: action.payload.stage };
+        }
+        case 'SET_BARCODE_OBJECT': {
+            return { ...state, barcodeObject: action.payload.barcodeObject };
         }
         default:
             return state;

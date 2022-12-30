@@ -1,13 +1,3 @@
-export interface Option {
-    name: string,
-    optionCategories: string[]
-}
-
-export interface Category {
-    name: string,
-    options: Option[]
-}
-
 export const categories = ["Books", "Video Games", "Movies/TV", "Music"];
 
 export const bookOptions = {
@@ -64,8 +54,12 @@ export interface User {
 }
 
 export interface Book {
-    title: string;
-    author: string;
-    type: string;
-    signed: boolean;
+    BOOK_ID: number;
+    AUTHOR: string;
+    TYPE: string;
+    BARCODE: number;
+    YEAR: number;
+    SIGNED: boolean;
+    TITLE: string;
+    USER_ID: number;
 }
