@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import BarcodeScannerComponent from "react-qr-barcode-scanner";
 import { barcodeLookup } from '../../hooks/controller';
 import { useSession, Stages } from '../../hooks/useSession';

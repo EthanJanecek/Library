@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import { ToggleButton } from 'react-bootstrap';
+import { useState } from 'react';
 import { useSession } from '../hooks';
 import { login, register } from '../hooks/controller';
 import './Header.css';
@@ -7,8 +6,7 @@ import {useNavigate} from 'react-router-dom';
 import { User } from '../hooks/constants';
 
 export function Login(props: any) {
-    const [state, dispatch] = useSession();
-    const {signedIn} = state;
+    const [, dispatch] = useSession();
     const {setSignedIn, setUser} = dispatch;
     const navigate = useNavigate();
 

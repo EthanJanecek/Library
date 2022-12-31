@@ -3,7 +3,7 @@ import {useNavigate} from 'react-router-dom';
 import { Stages, useSession } from '../hooks/useSession';
 
 export function Home(props: any) {
-    const [state, dispatch] = useSession();
+    const [, dispatch] = useSession();
     const {setStage} = dispatch;
     const navigate = useNavigate();
 

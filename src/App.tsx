@@ -1,5 +1,3 @@
-import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 import { Header, Home } from './components';
 import { useLocation } from 'react-router-dom'
@@ -18,8 +16,8 @@ function App() {
             <Header />
             {signedIn &&
                 <div>
-                    {path == '/' && <Home />}
-                    {path == '/books' && <Books />}
+                    {path === '/' && <Home />}
+                    {path === '/books' && <Books />}
                 </div>
             }
         </div>

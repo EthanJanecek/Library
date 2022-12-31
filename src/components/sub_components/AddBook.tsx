@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
-import { addBook, barcodeLookup } from '../../hooks/controller';
+import { useState } from 'react';
+import { addBook } from '../../hooks/controller';
 import { Stages, useSession } from '../../hooks/useSession';
 import Dropdown from 'react-dropdown';
 import 'react-dropdown/style.css';
@@ -26,11 +26,11 @@ export function AddBook(props: any) {
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        props.refresh();
 
         const email = user ? user.EMAIL : "";
         addBook(email, data, (success: Boolean, response: any) => {
             if(success) {
+                props.refresh();
                 setStage(Stages.VIEWING);
             } else {
                 setErr(response);
@@ -39,7 +39,7 @@ export function AddBook(props: any) {
     }
 
     const checkNum = (num: string) => {
-        if(parseInt(num) === NaN) {
+        if(isNaN(parseInt(num))) {
             return 0;
         } else {
             return parseInt(num);

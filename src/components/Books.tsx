@@ -19,9 +19,29 @@ export function Books(props: any) {
     const [selectedBook, setSelectedBook] = useState({} as Book);
     const [page, setPage] = useState(1);
 
+    const email = user ? user.EMAIL : "";
+
+    const refreshList = () => {
+        getBooks(email, (data: Book[]) => {
+            setAllBooks(data);
+            setBooks(data.sort((a: Book, b: Book) => {
+                return a.TITLE.localeCompare(b.TITLE);
+            }).slice(0, 10));
+        }, (err: any) => {
+            console.log(err);
+        })
+    }
+
     useEffect(() => {
-        refreshList();
-    }, [user]);
+        getBooks(email, (data: Book[]) => {
+            setAllBooks(data);
+            setBooks(data.sort((a: Book, b: Book) => {
+                return a.TITLE.localeCompare(b.TITLE);
+            }).slice(0, 10));
+        }, (err: any) => {
+            console.log(err);
+        })
+    }, [email]);
 
     const selectBook = (book: Book) => {
         setSelectedBook(book);
@@ -40,19 +60,6 @@ export function Books(props: any) {
             return a.TITLE.localeCompare(b.TITLE);
         }).slice((newPage * 10) - 10, (newPage * 10)));
     }
-    
-    const refreshList = () => {
-        const email = user ? user.EMAIL : "";
-
-        getBooks(email, (data: Book[]) => {
-            setAllBooks(data);
-            setBooks(data.sort((a: Book, b: Book) => {
-                return a.TITLE.localeCompare(b.TITLE);
-            }).slice(0, 10));
-        }, (err: any) => {
-            console.log(err);
-        })
-    }
 
     return (
         <div className="container-fluid d-grid">
@@ -69,7 +76,7 @@ export function Books(props: any) {
                     </div>
                     <div className='d-flex justify-content-center mb-2'>
                         <Button onClick={() => changePage(-1)} disabled={page === 1} className="me-4">Previous</Button>
-                        <Button onClick={() => changePage(1)} disabled={(page * 10) > allBooks.length}>Next</Button>
+                        <Button onClick={() => changePage(1)} disabled={(page * 10) >= allBooks.length}>Next</Button>
                     </div>
                     <div className='d-flex justify-content-center'>
                         <ListGroup className='d-flex text-center'>
