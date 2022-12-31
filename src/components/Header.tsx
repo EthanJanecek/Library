@@ -11,10 +11,14 @@ export function Header(props: any) {
     const signOn = () => {
         navigate("/login");
     };
+
+    const goHome = () => {
+        navigate("/");
+    }
     
     return (
         <div className="container-fluid header">
-            <h1 className="text-left">Library</h1>
+            <h1 className="text-left" onClick={goHome}>Library</h1>
             {
                 signedIn ? 
                 <p>Hello {user?.NAME}</p> :

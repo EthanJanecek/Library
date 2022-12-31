@@ -1,12 +1,12 @@
 import axios from 'axios';
 
-export const BACKEND_URL = "http://localhost:8080";
-//export const BACKEND_URL = "https://ethansharedlibrary.azurewebsites.net/";
-export const REGISTER_ROUTE = "/register";
-export const LOGIN_ROUTE = "/login";
-export const LOOKUP_ROUTE = "/barcodeLookup";
-export const BOOK_ROUTE = "/book";
-export const BOOKS_ROUTE = "/books";
+//export const BACKEND_URL = "http://localhost:8080/";
+export const BACKEND_URL = "https://ethansharedlibrary.azurewebsites.net/";
+export const REGISTER_ROUTE = "register";
+export const LOGIN_ROUTE = "login";
+export const LOOKUP_ROUTE = "barcodeLookup";
+export const BOOK_ROUTE = "book";
+export const BOOKS_ROUTE = "books";
 
 export const register = async (name: string, email: string, password: string, registerCallback: CallableFunction) => {
     await axios.post(BACKEND_URL + REGISTER_ROUTE, {
@@ -15,8 +15,8 @@ export const register = async (name: string, email: string, password: string, re
         registerCallback(true, res.data.message);
         return res.data.message;
     }).catch(err => {
-        registerCallback(false, err.response.data);
-        return err.response.data;
+        registerCallback(false, err.data);
+        return err.data;
     })
 }
 
@@ -27,8 +27,8 @@ export const login = async (email: string, password: string, loginCallback: Call
         loginCallback(true, res.data.message, res.data);
         return res.data.message;
     }).catch(err => {
-        loginCallback(false, err.response.data, undefined);
-        return err.response.data;
+        loginCallback(false, err.data, undefined);
+        return err.data;
     })
 }
 

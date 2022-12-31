@@ -26,6 +26,7 @@ export function AddBook(props: any) {
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
+        props.refresh();
 
         const email = user ? user.EMAIL : "";
         addBook(email, data, (success: Boolean, response: any) => {
