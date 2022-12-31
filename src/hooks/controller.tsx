@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-//export const BACKEND_URL = "http://localhost:8080/";
-export const BACKEND_URL = "https://ethansharedlibrary.azurewebsites.net/";
+export const BACKEND_URL = "http://localhost:8080/";
+//export const BACKEND_URL = "https://ethansharedlibrary.azurewebsites.net/";
 export const REGISTER_ROUTE = "register";
 export const LOGIN_ROUTE = "login";
 export const LOOKUP_ROUTE = "barcodeLookup";
@@ -44,6 +44,18 @@ export const barcodeLookup = async (barcode: string, barcodeCallback: CallableFu
 
 export const addBook = async(email: string, data: any, callback: CallableFunction) => {
     axios.post(BACKEND_URL + BOOK_ROUTE, {
+        email,
+        data
+    }).then(res => {
+        callback(true, res.data);
+    }).catch(err => {
+        console.log(err.response.data);
+        callback(false, err.response.data);
+    })
+}
+
+export const updateBook = async(email: string, data: any, callback: CallableFunction) => {
+    axios.patch(BACKEND_URL + BOOK_ROUTE, {
         email,
         data
     }).then(res => {

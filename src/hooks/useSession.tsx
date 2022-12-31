@@ -4,7 +4,8 @@ import { Book, User } from "./constants";
 export enum Stages {
     VIEWING,
     SCANNING,
-    ADDING
+    ADDING,
+    UPDATING
 };
 
 export interface Action<TType extends string, TPayload = void> {

@@ -62,4 +62,6 @@ export interface Book {
     SIGNED: boolean;
     TITLE: string;
     USER_ID: number;
+    READ: boolean;
+    SERIES: string;
 }

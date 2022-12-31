@@ -22,6 +22,10 @@ export function Books(props: any) {
     const email = user ? user.EMAIL : "";
 
     const refreshList = () => {
+        if(page > 1) {
+            changePage(-(page - 1));
+        }
+
         getBooks(email, (data: Book[]) => {
             setAllBooks(data);
             setBooks(data.sort((a: Book, b: Book) => {
@@ -106,8 +110,8 @@ export function Books(props: any) {
                 <BarcodeReader />
             }
             {
-                stage === Stages.ADDING &&
-                <AddBook refresh={refreshList}/>
+                (stage === Stages.ADDING || stage === Stages.UPDATING) &&
+                <AddBook refresh={refreshList} book={selectedBook}/>
             }
         </div>
     );

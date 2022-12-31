@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { addBook } from '../../hooks/controller';
+import { addBook, updateBook } from '../../hooks/controller';
 import { Stages, useSession } from '../../hooks/useSession';
 import Dropdown from 'react-dropdown';
 import 'react-dropdown/style.css';
@@ -9,33 +9,47 @@ import Button from 'react-bootstrap/Button';
 
 export function AddBook(props: any) {
     const [state, dispatch] = useSession();
-    const {user} = state;
+    const {user, stage} = state;
     const {setStage} = dispatch;
 
     const [err, setErr] = useState("");
     const [data, setData] = useState(
         {
-            title: "",
-            author: "",
-            type: bookOptions.type[0],
-            barcode: 0,
-            year: 0,
-            signed: false
+            bookID: props.book ? props.book.BOOK_ID : 0,
+            title: props.book ? props.book.TITLE : "",
+            author: props.book ? props.book.AUTHOR : "",
+            type: props.book ? props.book.TYPE : bookOptions.type[0],
+            barcode: props.book ? props.book.BARCODE : 0,
+            year: props.book ? props.book.YEAR : 0,
+            signed: props.book ? props.book.SIGNED : false,
+            read: props.book ? props.book.READ : false,
+            series: props.book ? props.book.SERIES : ""
         }
     );
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-
         const email = user ? user.EMAIL : "";
-        addBook(email, data, (success: Boolean, response: any) => {
-            if(success) {
-                props.refresh();
-                setStage(Stages.VIEWING);
-            } else {
-                setErr(response);
-            }
-        })
+
+        if(stage === Stages.ADDING) {
+            addBook(email, data, (success: Boolean, response: any) => {
+                if(success) {
+                    props.refresh();
+                    setStage(Stages.VIEWING);
+                } else {
+                    setErr(response);
+                }
+            });
+        } else if(stage === Stages.UPDATING) {
+            updateBook(email, data, (success: Boolean, response: any) => {
+                if(success) {
+                    props.refresh();
+                    setStage(Stages.VIEWING);
+                } else {
+                    setErr(response);
+                }
+            });
+        }
     }
 
     const checkNum = (num: string) => {
@@ -61,6 +75,10 @@ export function AddBook(props: any) {
                     <Form.Control type="text" required value={data.author} onChange={(event) => {setData({...data, author: event.target.value})}} />
                 </Form.Group>
                 <Form.Group className="mb-3">
+                    <Form.Label>Series</Form.Label>
+                    <Form.Control type="text" value={data.series} onChange={(event) => {setData({...data, series: event.target.value})}} />
+                </Form.Group>
+                <Form.Group className="mb-3">
                     <Form.Label>Barcode</Form.Label>
                     <Form.Control type="number" required value={data.barcode} onChange={(event) => {setData({...data, barcode: checkNum(event.target.value)})}} />
                 </Form.Group>
@@ -71,6 +89,9 @@ export function AddBook(props: any) {
                 <Form.Group className="mb-3">
                     <Form.Label>Type</Form.Label>
                     <Dropdown options={bookOptions.type} value={data.type} onChange={(event) => {setData({...data, type: event.value})}}/>
+                </Form.Group>
+                <Form.Group className="mb-3">
+                    <Form.Check type="checkbox" label="Read?" checked={data.read} onChange={() => {setData({...data, read: !data.read})}}/>
                 </Form.Group>
                 <Form.Group className="mb-3">
                     <Form.Check type="checkbox" label="Signed?" checked={data.signed} onChange={() => {setData({...data, signed: !data.signed})}}/>
