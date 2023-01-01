@@ -15,15 +15,15 @@ export function AddBook(props: any) {
     const [err, setErr] = useState("");
     const [data, setData] = useState(
         {
-            bookID: props.book ? props.book.BOOK_ID : 0,
-            title: props.book ? props.book.TITLE : "",
-            author: props.book ? props.book.AUTHOR : "",
-            type: props.book ? props.book.TYPE : bookOptions.type[0],
-            barcode: props.book ? props.book.BARCODE : 0,
-            year: props.book ? props.book.YEAR : 0,
-            signed: props.book ? props.book.SIGNED : false,
-            read: props.book ? props.book.READ : false,
-            series: props.book ? props.book.SERIES : ""
+            bookID: stage === Stages.UPDATING ? props.book.BOOK_ID : 0,
+            title: stage === Stages.UPDATING ? props.book.TITLE : "",
+            author: stage === Stages.UPDATING ? props.book.AUTHOR : "",
+            type: stage === Stages.UPDATING ? props.book.TYPE : bookOptions.type[0],
+            barcode: stage === Stages.UPDATING ? props.book.BARCODE : 0,
+            year: stage === Stages.UPDATING ? props.book.YEAR : 0,
+            signed: stage === Stages.UPDATING ? props.book.SIGNED : false,
+            read: stage === Stages.UPDATING ? props.book.READ : false,
+            series: stage === Stages.UPDATING ? props.book.SERIES : ""
         }
     );
 
