@@ -1,12 +1,14 @@
 import axios from 'axios';
 
-//export const BACKEND_URL = "http://localhost:8080/";
-export const BACKEND_URL = "https://ethansharedlibrary.azurewebsites.net/";
+export const BACKEND_URL = "http://localhost:8080/";
+//export const BACKEND_URL = "https://ethansharedlibrary.azurewebsites.net/";
 export const REGISTER_ROUTE = "register";
 export const LOGIN_ROUTE = "login";
 export const LOOKUP_ROUTE = "barcodeLookup";
 export const BOOK_ROUTE = "book";
 export const BOOKS_ROUTE = "books";
+export const GAME_ROUTE = "game";
+export const GAMES_ROUTE = "games";
 
 export const register = async (name: string, email: string, password: string, registerCallback: CallableFunction) => {
     await axios.post(BACKEND_URL + REGISTER_ROUTE, {
@@ -68,6 +70,39 @@ export const updateBook = async(email: string, data: any, callback: CallableFunc
 
 export const getBooks = async(email: string, successCallback: CallableFunction, errorCallback: CallableFunction) => {
     axios.get(BACKEND_URL + BOOKS_ROUTE + `?email=${email}`).then(res => {
+        successCallback(res.data);
+    }).catch(err => {
+        console.log(err);
+        //errorCallback(err.response.data);
+    })
+}
+
+export const addGame = async(email: string, data: any, callback: CallableFunction) => {
+    axios.post(BACKEND_URL + GAME_ROUTE, {
+        email,
+        data
+    }).then(res => {
+        callback(true, res.data);
+    }).catch(err => {
+        console.log(err.response.data);
+        callback(false, err.response.data);
+    })
+}
+
+export const updateGame = async(email: string, data: any, callback: CallableFunction) => {
+    axios.patch(BACKEND_URL + GAME_ROUTE, {
+        email,
+        data
+    }).then(res => {
+        callback(true, res.data);
+    }).catch(err => {
+        console.log(err.response.data);
+        callback(false, err.response.data);
+    })
+}
+
+export const getGames = async(email: string, successCallback: CallableFunction, errorCallback: CallableFunction) => {
+    axios.get(BACKEND_URL + GAMES_ROUTE + `?email=${email}`).then(res => {
         successCallback(res.data);
     }).catch(err => {
         console.log(err);

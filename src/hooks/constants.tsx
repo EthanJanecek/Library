@@ -14,11 +14,11 @@ export const musicOptions = {
 };
 
 export const videoGameOptions = {
-    type: ["Digital", "Physical"],
-    console: [
+    type: ["Physical", "Digital"],
+    consoleTypes: [
         {
             brand: "PC",
-            consoles: []
+            consoles: ["PC"]
         },
         {
             brand: "Xbox",
@@ -65,4 +65,15 @@ export interface Book {
     READ: boolean;
     SERIES: string;
     SERIES_NUMBER: number;
+}
+
+export interface Game {
+    VIDEO_GAME_ID: number;
+    NAME: string;
+    TYPE: string;
+    CONSOLE_BRAND: string;
+    CONSOLE: string;
+    BARCODE: number;
+    USER_ID: number;
+    PLAYED: boolean;
 }

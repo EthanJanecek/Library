@@ -12,6 +12,12 @@ export function Home(props: any) {
         navigate("/books");
     };
 
+    const navigateToGames = () => {
+        console.log("Going to games");
+        setStage(Stages.VIEWING);
+        navigate("/games");
+    };
+
     return (
         <div className="container-fluid d-grid">
             <div className="container-fluid d-grid">
@@ -20,7 +26,7 @@ export function Home(props: any) {
                 </button>
             </div>
             <div className="container-fluid d-grid">
-                <button className="btn btn-primary">
+                <button className="btn btn-primary" onClick={navigateToGames}>
                     Video Games
                 </button>
             </div>
