@@ -22,6 +22,8 @@ export function BookModal(props: any) {
                     <br />
                     <label>Series: {props.book.SERIES}</label>
                     <br />
+                    <label>Series #: {props.book.SERIES_NUMBER}</label>
+                    <br />
                     <label>Type: {props.book.TYPE}</label>
                     <br />
                     <label>Barcode: {props.book.BARCODE}</label>

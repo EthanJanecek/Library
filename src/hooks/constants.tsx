@@ -64,4 +64,5 @@ export interface Book {
     USER_ID: number;
     READ: boolean;
     SERIES: string;
+    SERIES_NUMBER: number;
 }

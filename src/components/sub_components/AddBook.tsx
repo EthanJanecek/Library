@@ -23,7 +23,8 @@ export function AddBook(props: any) {
             year: stage === Stages.UPDATING ? props.book.YEAR : 0,
             signed: stage === Stages.UPDATING ? props.book.SIGNED : false,
             read: stage === Stages.UPDATING ? props.book.READ : false,
-            series: stage === Stages.UPDATING ? props.book.SERIES : ""
+            series: stage === Stages.UPDATING ? props.book.SERIES : "",
+            seriesNumber: stage === Stages.UPDATING ? props.book.SERIES_NUMBER : 0
         }
     );
 
@@ -76,7 +77,9 @@ export function AddBook(props: any) {
                 </Form.Group>
                 <Form.Group className="mb-3">
                     <Form.Label>Series</Form.Label>
+                    <Form.Label>Series #</Form.Label>
                     <Form.Control type="text" value={data.series} onChange={(event) => {setData({...data, series: event.target.value})}} />
+                    <Form.Control type="number" disabled={data.series === ""} required value={data.seriesNumber} onChange={(event) => {setData({...data, seriesNumber: checkNum(event.target.value)})}} />
                 </Form.Group>
                 <Form.Group className="mb-3">
                     <Form.Label>Barcode</Form.Label>
