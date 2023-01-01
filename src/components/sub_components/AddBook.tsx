@@ -77,7 +77,6 @@ export function AddBook(props: any) {
                 </Form.Group>
                 <Form.Group className="mb-3">
                     <Form.Label>Series</Form.Label>
-                    <Form.Label>Series #</Form.Label>
                     <Form.Control type="text" value={data.series} onChange={(event) => {setData({...data, series: event.target.value})}} />
                     <Form.Control type="number" disabled={data.series === ""} required value={data.seriesNumber} onChange={(event) => {setData({...data, seriesNumber: checkNum(event.target.value)})}} />
                 </Form.Group>
