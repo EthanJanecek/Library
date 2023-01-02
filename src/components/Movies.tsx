@@ -116,7 +116,7 @@ export function Movies(props: any) {
                     </div>
                     <div className='d-flex justify-content-center mb-2'>
                         <Button onClick={() => changePage(-1)} disabled={page === 1} className="me-4">Previous</Button>
-                        <Button onClick={() => changePage(1)} disabled={(page * 10) >= movies.length}>Next</Button>
+                        <Button onClick={() => changePage(1)} disabled={(page * 10) >= allMovies.length}>Next</Button>
                     </div>
                     <div className='d-flex justify-content-center'>
                         <ListGroup className='d-flex text-center'>
