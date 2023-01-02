@@ -10,7 +10,7 @@ export const moviesTvOptions = {
 };
 
 export const musicOptions = {
-    type: ["Disk", "Vinyl", "Digital", "Cassette"]
+    type: ["CD", "Vinyl", "Digital", "Cassette"]
 };
 
 export const videoGameOptions = {
@@ -76,4 +76,23 @@ export interface Game {
     BARCODE: number;
     USER_ID: number;
     PLAYED: boolean;
+}
+
+export interface Music {
+    MUSIC_ID: number;
+    NAME: string;
+    TYPE: string;
+    ARTIST: string;
+    BARCODE: number;
+    USER_ID: number;
+}
+
+export interface Movie {
+    MOVIE_TV_ID: number;
+    NAME: string;
+    TYPE: string;
+    CATEGORY: string;
+    BARCODE: number;
+    SEASON: number;
+    USER_ID: number;
 }

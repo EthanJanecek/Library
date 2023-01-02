@@ -1,22 +1,22 @@
 import { useState, useEffect } from 'react';
 import { Stages, useSession } from '../hooks/useSession';
-import { AddGame } from './sub_components/AddGame';
-import { Game } from '../hooks/constants';
-import { getGames } from '../hooks/controller';
+import { Movie } from '../hooks/constants';
 import ListGroup from 'react-bootstrap/ListGroup';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import { GameModal } from './sub_components/GameModal';
+import { MovieModal } from './sub_components/MovieModal';
+import { AddMovie } from './sub_components/AddMovie';
+import { getMovies } from '../hooks/controller';
 
-export function Games(props: any) {
+export function Movies(props: any) {
     const [state, dispatch] = useSession();
     const {stage, user} = state;
     const {setStage} = dispatch;
 
-    const [allGames, setAllGames] = useState([] as Game[]);
-    const [games, setGames] = useState([] as Game[]);
+    const [allMovies, setAllMovies] = useState([] as Movie[]);
+    const [movies, setMovies] = useState([] as Movie[]);
     const [showModal, setShowModal] = useState(false);
-    const [selectedGame, setSelectedGame] = useState({} as Game);
+    const [selectedMovie, setSelectedMovie] = useState({} as Movie);
     const [page, setPage] = useState(1);
     const [searchText, setSearchText] = useState("");
 
@@ -27,9 +27,9 @@ export function Games(props: any) {
             changePage(-(page - 1));
         }
 
-        getGames(email, (data: Game[]) => {
-            setAllGames(data);
-            setGames(data.sort((a: Game, b: Game) => {
+        getMovies(email, (data: Movie[]) => {
+            setAllMovies(data);
+            setMovies(data.sort((a: Movie, b: Movie) => {
                 return a.NAME.localeCompare(b.NAME);
             }).slice(0, 10));
         }, (err: any) => {
@@ -38,9 +38,9 @@ export function Games(props: any) {
     }
 
     useEffect(() => {
-        getGames(email, (data: Game[]) => {
-            setAllGames(data);
-            setGames(data.sort((a: Game, b: Game) => {
+        getMovies(email, (data: Movie[]) => {
+            setAllMovies(data);
+            setMovies(data.sort((a: Movie, b: Movie) => {
                 return a.NAME.localeCompare(b.NAME);
             }).slice(0, 10));
         }, (err: any) => {
@@ -48,8 +48,8 @@ export function Games(props: any) {
         })
     }, [email]);
 
-    const selectGame = (game: Game) => {
-        setSelectedGame(game);
+    const selectMovie = (movie: Movie) => {
+        setSelectedMovie(movie);
         setShowModal(true);
     }
 
@@ -64,13 +64,13 @@ export function Games(props: any) {
         if(searchText.length >= 3) {
             const strippedSearch = searchText.replace(/[^a-zA-Z0-9]/g, '').toLowerCase();
 
-            setGames(allGames.filter((game) => {
-                return game.NAME.replace(/[^a-zA-Z0-9]/g, '').toLowerCase().includes(strippedSearch);
-            }).sort((a: Game, b: Game) => {
+            setMovies(allMovies.filter((movie) => {
+                return movie.NAME.replace(/[^a-zA-Z0-9]/g, '').toLowerCase().includes(strippedSearch);
+            }).sort((a: Movie, b: Movie) => {
                 return a.NAME.localeCompare(b.NAME);
             }).slice((newPage * 10) - 10, (newPage * 10)));
         } else {
-            setGames(allGames.sort((a: Game, b: Game) => {
+            setMovies(allMovies.sort((a: Movie, b: Movie) => {
                 return a.NAME.localeCompare(b.NAME);
             }).slice((newPage * 10) - 10, (newPage * 10)));
         }
@@ -84,13 +84,13 @@ export function Games(props: any) {
         if(newSearchText.length >= 3) {
             const strippedSearch = newSearchText.replace(/[^a-zA-Z0-9]/g, '').toLowerCase();
 
-            setGames(allGames.filter((game) => {
-                return game.NAME.replace(/[^a-zA-Z0-9]/g, '').toLowerCase().includes(strippedSearch);
-            }).sort((a: Game, b: Game) => {
+            setMovies(allMovies.filter((movie) => {
+                return movie.NAME.replace(/[^a-zA-Z0-9]/g, '').toLowerCase().includes(strippedSearch);
+            }).sort((a: Movie, b: Movie) => {
                 return a.NAME.localeCompare(b.NAME);
             }).slice(0, 10));
         } else {
-            setGames(allGames.sort((a: Game, b: Game) => {
+            setMovies(allMovies.sort((a: Movie, b: Movie) => {
                 return a.NAME.localeCompare(b.NAME);
             }).slice(0, 10));
         }
@@ -103,7 +103,7 @@ export function Games(props: any) {
                 <div>
                     <div className='d-flex justify-content-center mb-2'>
                         <Button className="btn btn-primary" onClick={() => setStage(Stages.ADDING)}>
-                            Add Game
+                            Add Movie/TV Show
                         </Button>
                     </div>
                     <div className='d-flex justify-content-center mb-2'>
@@ -116,18 +116,18 @@ export function Games(props: any) {
                     </div>
                     <div className='d-flex justify-content-center mb-2'>
                         <Button onClick={() => changePage(-1)} disabled={page === 1} className="me-4">Previous</Button>
-                        <Button onClick={() => changePage(1)} disabled={(page * 10) >= games.length}>Next</Button>
+                        <Button onClick={() => changePage(1)} disabled={(page * 10) >= movies.length}>Next</Button>
                     </div>
                     <div className='d-flex justify-content-center'>
                         <ListGroup className='d-flex text-center'>
-                            {games.map((game: Game) => {
-                                    return <ListGroup.Item onClick={() => selectGame(game)}>
+                            {movies.map((movie: Movie) => {
+                                    return <ListGroup.Item onClick={() => selectMovie(movie)}>
                                         <div>
                                             <div className="fw-bold">
-                                                {game.NAME}
+                                                {movie.NAME}
                                             </div>
                                             <div>
-                                                {game.CONSOLE}
+                                                {movie.CATEGORY + (movie.CATEGORY === "TV Show" ? ` - Season ${movie.SEASON}` : ``)}
                                             </div>
                                         </div>
                                     </ListGroup.Item>
@@ -136,14 +136,14 @@ export function Games(props: any) {
                         </ListGroup>
                     </div>
                     {
-                        showModal && selectedGame &&
-                        <GameModal game={selectedGame} closeModal={closeModal} />
+                        showModal && selectedMovie &&
+                        <MovieModal movie={selectedMovie} closeModal={closeModal} />
                     }
                 </div>
             }
             {
                 (stage === Stages.ADDING || stage === Stages.UPDATING) &&
-                <AddGame refresh={refreshList} game={selectedGame}/>
+                <AddMovie refresh={refreshList} movie={selectedMovie}/>
             }
         </div>
     );

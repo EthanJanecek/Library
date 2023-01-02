@@ -9,6 +9,10 @@ export const BOOK_ROUTE = "book";
 export const BOOKS_ROUTE = "books";
 export const GAME_ROUTE = "game";
 export const GAMES_ROUTE = "games";
+export const MUSIC_ROUTE = "music";
+export const MUSICS_ROUTE = "musics";
+export const MOVIE_ROUTE = "movie";
+export const MOVIES_ROUTE = "movies";
 
 export const register = async (name: string, email: string, password: string, registerCallback: CallableFunction) => {
     await axios.post(BACKEND_URL + REGISTER_ROUTE, {
@@ -103,6 +107,72 @@ export const updateGame = async(email: string, data: any, callback: CallableFunc
 
 export const getGames = async(email: string, successCallback: CallableFunction, errorCallback: CallableFunction) => {
     axios.get(BACKEND_URL + GAMES_ROUTE + `?email=${email}`).then(res => {
+        successCallback(res.data);
+    }).catch(err => {
+        console.log(err);
+        //errorCallback(err.response.data);
+    })
+}
+
+export const addMusic = async(email: string, data: any, callback: CallableFunction) => {
+    axios.post(BACKEND_URL + MUSIC_ROUTE, {
+        email,
+        data
+    }).then(res => {
+        callback(true, res.data);
+    }).catch(err => {
+        console.log(err.response.data);
+        callback(false, err.response.data);
+    })
+}
+
+export const updateMusic = async(email: string, data: any, callback: CallableFunction) => {
+    axios.patch(BACKEND_URL + MUSIC_ROUTE, {
+        email,
+        data
+    }).then(res => {
+        callback(true, res.data);
+    }).catch(err => {
+        console.log(err.response.data);
+        callback(false, err.response.data);
+    })
+}
+
+export const getMusic = async(email: string, successCallback: CallableFunction, errorCallback: CallableFunction) => {
+    axios.get(BACKEND_URL + MUSICS_ROUTE + `?email=${email}`).then(res => {
+        successCallback(res.data);
+    }).catch(err => {
+        console.log(err);
+        //errorCallback(err.response.data);
+    })
+}
+
+export const addMovie = async(email: string, data: any, callback: CallableFunction) => {
+    axios.post(BACKEND_URL + MOVIE_ROUTE, {
+        email,
+        data
+    }).then(res => {
+        callback(true, res.data);
+    }).catch(err => {
+        console.log(err.response.data);
+        callback(false, err.response.data);
+    })
+}
+
+export const updateMovie = async(email: string, data: any, callback: CallableFunction) => {
+    axios.patch(BACKEND_URL + MOVIE_ROUTE, {
+        email,
+        data
+    }).then(res => {
+        callback(true, res.data);
+    }).catch(err => {
+        console.log(err.response.data);
+        callback(false, err.response.data);
+    })
+}
+
+export const getMovies = async(email: string, successCallback: CallableFunction, errorCallback: CallableFunction) => {
+    axios.get(BACKEND_URL + MOVIES_ROUTE + `?email=${email}`).then(res => {
         successCallback(res.data);
     }).catch(err => {
         console.log(err);

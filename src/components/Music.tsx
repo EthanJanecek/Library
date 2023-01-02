@@ -1,22 +1,22 @@
 import { useState, useEffect } from 'react';
 import { Stages, useSession } from '../hooks/useSession';
-import { AddGame } from './sub_components/AddGame';
-import { Game } from '../hooks/constants';
-import { getGames } from '../hooks/controller';
+import { Music } from '../hooks/constants';
+import { getMusic } from '../hooks/controller';
 import ListGroup from 'react-bootstrap/ListGroup';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import { GameModal } from './sub_components/GameModal';
+import { MusicModal } from './sub_components/MusicModal';
+import { AddMusic } from './sub_components/AddMusic';
 
-export function Games(props: any) {
+export function Musics(props: any) {
     const [state, dispatch] = useSession();
     const {stage, user} = state;
     const {setStage} = dispatch;
 
-    const [allGames, setAllGames] = useState([] as Game[]);
-    const [games, setGames] = useState([] as Game[]);
+    const [allMusic, setAllMusic] = useState([] as Music[]);
+    const [music, setMusic] = useState([] as Music[]);
     const [showModal, setShowModal] = useState(false);
-    const [selectedGame, setSelectedGame] = useState({} as Game);
+    const [selectedMusic, setSelectedMusic] = useState({} as Music);
     const [page, setPage] = useState(1);
     const [searchText, setSearchText] = useState("");
 
@@ -27,9 +27,9 @@ export function Games(props: any) {
             changePage(-(page - 1));
         }
 
-        getGames(email, (data: Game[]) => {
-            setAllGames(data);
-            setGames(data.sort((a: Game, b: Game) => {
+        getMusic(email, (data: Music[]) => {
+            setAllMusic(data);
+            setMusic(data.sort((a: Music, b: Music) => {
                 return a.NAME.localeCompare(b.NAME);
             }).slice(0, 10));
         }, (err: any) => {
@@ -38,9 +38,9 @@ export function Games(props: any) {
     }
 
     useEffect(() => {
-        getGames(email, (data: Game[]) => {
-            setAllGames(data);
-            setGames(data.sort((a: Game, b: Game) => {
+        getMusic(email, (data: Music[]) => {
+            setAllMusic(data);
+            setMusic(data.sort((a: Music, b: Music) => {
                 return a.NAME.localeCompare(b.NAME);
             }).slice(0, 10));
         }, (err: any) => {
@@ -48,8 +48,8 @@ export function Games(props: any) {
         })
     }, [email]);
 
-    const selectGame = (game: Game) => {
-        setSelectedGame(game);
+    const selectMusic = (newMusic: Music) => {
+        setSelectedMusic(newMusic);
         setShowModal(true);
     }
 
@@ -64,13 +64,15 @@ export function Games(props: any) {
         if(searchText.length >= 3) {
             const strippedSearch = searchText.replace(/[^a-zA-Z0-9]/g, '').toLowerCase();
 
-            setGames(allGames.filter((game) => {
-                return game.NAME.replace(/[^a-zA-Z0-9]/g, '').toLowerCase().includes(strippedSearch);
-            }).sort((a: Game, b: Game) => {
+            setMusic(allMusic.filter((musicItem) => {
+                const nameMatch = musicItem.NAME.replace(/[^a-zA-Z0-9]/g, '').toLowerCase().includes(strippedSearch);
+                const artistMatch = musicItem.ARTIST.replace(/[^a-zA-Z0-9]/g, '').toLowerCase().includes(strippedSearch);
+                return nameMatch || artistMatch;
+            }).sort((a: Music, b: Music) => {
                 return a.NAME.localeCompare(b.NAME);
             }).slice((newPage * 10) - 10, (newPage * 10)));
         } else {
-            setGames(allGames.sort((a: Game, b: Game) => {
+            setMusic(allMusic.sort((a: Music, b: Music) => {
                 return a.NAME.localeCompare(b.NAME);
             }).slice((newPage * 10) - 10, (newPage * 10)));
         }
@@ -84,13 +86,15 @@ export function Games(props: any) {
         if(newSearchText.length >= 3) {
             const strippedSearch = newSearchText.replace(/[^a-zA-Z0-9]/g, '').toLowerCase();
 
-            setGames(allGames.filter((game) => {
-                return game.NAME.replace(/[^a-zA-Z0-9]/g, '').toLowerCase().includes(strippedSearch);
-            }).sort((a: Game, b: Game) => {
+            setMusic(allMusic.filter((musicItem) => {
+                const nameMatch = musicItem.NAME.replace(/[^a-zA-Z0-9]/g, '').toLowerCase().includes(strippedSearch);
+                const artistMatch = musicItem.ARTIST.replace(/[^a-zA-Z0-9]/g, '').toLowerCase().includes(strippedSearch);
+                return nameMatch || artistMatch;
+            }).sort((a: Music, b: Music) => {
                 return a.NAME.localeCompare(b.NAME);
             }).slice(0, 10));
         } else {
-            setGames(allGames.sort((a: Game, b: Game) => {
+            setMusic(allMusic.sort((a: Music, b: Music) => {
                 return a.NAME.localeCompare(b.NAME);
             }).slice(0, 10));
         }
@@ -103,7 +107,7 @@ export function Games(props: any) {
                 <div>
                     <div className='d-flex justify-content-center mb-2'>
                         <Button className="btn btn-primary" onClick={() => setStage(Stages.ADDING)}>
-                            Add Game
+                            Add Music
                         </Button>
                     </div>
                     <div className='d-flex justify-content-center mb-2'>
@@ -116,18 +120,18 @@ export function Games(props: any) {
                     </div>
                     <div className='d-flex justify-content-center mb-2'>
                         <Button onClick={() => changePage(-1)} disabled={page === 1} className="me-4">Previous</Button>
-                        <Button onClick={() => changePage(1)} disabled={(page * 10) >= games.length}>Next</Button>
+                        <Button onClick={() => changePage(1)} disabled={(page * 10) >= music.length}>Next</Button>
                     </div>
                     <div className='d-flex justify-content-center'>
                         <ListGroup className='d-flex text-center'>
-                            {games.map((game: Game) => {
-                                    return <ListGroup.Item onClick={() => selectGame(game)}>
+                            {music.map((musicItem: Music) => {
+                                    return <ListGroup.Item onClick={() => selectMusic(musicItem)}>
                                         <div>
                                             <div className="fw-bold">
-                                                {game.NAME}
+                                                {musicItem.NAME}
                                             </div>
                                             <div>
-                                                {game.CONSOLE}
+                                                {musicItem.ARTIST}
                                             </div>
                                         </div>
                                     </ListGroup.Item>
@@ -136,14 +140,14 @@ export function Games(props: any) {
                         </ListGroup>
                     </div>
                     {
-                        showModal && selectedGame &&
-                        <GameModal game={selectedGame} closeModal={closeModal} />
+                        showModal && selectedMusic &&
+                        <MusicModal music={selectedMusic} closeModal={closeModal} />
                     }
                 </div>
             }
             {
                 (stage === Stages.ADDING || stage === Stages.UPDATING) &&
-                <AddGame refresh={refreshList} game={selectedGame}/>
+                <AddMusic refresh={refreshList} music={selectedMusic}/>
             }
         </div>
     );

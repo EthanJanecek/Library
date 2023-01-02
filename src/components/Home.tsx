@@ -13,9 +13,18 @@ export function Home(props: any) {
     };
 
     const navigateToGames = () => {
-        console.log("Going to games");
         setStage(Stages.VIEWING);
         navigate("/games");
+    };
+
+    const navigateToMusic = () => {
+        setStage(Stages.VIEWING);
+        navigate("/music");
+    };
+
+    const navigateToMovies = () => {
+        setStage(Stages.VIEWING);
+        navigate("/movies");
     };
 
     return (
@@ -31,12 +40,12 @@ export function Home(props: any) {
                 </button>
             </div>
             <div className="container-fluid d-grid">
-                <button className="btn btn-primary">
-                    Music/TV
+                <button className="btn btn-primary" onClick={navigateToMovies}>
+                    Movies/TV
                 </button>
             </div>
             <div className="container-fluid d-grid">
-                <button className="btn btn-primary">
+                <button className="btn btn-primary" onClick={navigateToMusic}>
                     Music
                 </button>
             </div>

@@ -22,6 +22,8 @@ function Index() {
                       <Route path="/" element={<App />} />
                       <Route path="/books" element={<App />} />
                       <Route path="/games" element={<App />} />
+                      <Route path="/music" element={<App />} />
+                      <Route path="/movies" element={<App />} />
                       <Route path="/login" element={<Login />} />
                       <Route path="*" element={<h1>Error 404</h1>} />
                   </Routes>

@@ -61,23 +61,20 @@ export function AddGame(props: any) {
     }
 
     const changeConsoleBrand = (brandName: string) => {
-        setData({...data, consoleBrand: brandName});
         var foundMatch = false;
 
         videoGameOptions.consoleTypes.forEach((consoleType) => {
             if(consoleType.brand === brandName) {
                 foundMatch = true;
                 setConsoleOptions(consoleType.consoles);
-                setData({...data, console: consoleType.consoles[0]});
+                setData({...data, consoleBrand: brandName, console: consoleType.consoles[0]});
             }
         })
 
         if(!foundMatch) {
             setConsoleOptions([]);
-            setData({...data, console: ''});
+            setData({...data, consoleBrand: brandName, console: ''});
         }
-
-        
     }
 
     return (

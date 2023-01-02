@@ -2,11 +2,11 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { Stages, useSession } from '../../hooks/useSession';
 
-export function BookModal(props: any) {
+export function MovieModal(props: any) {
     const [, dispatch] = useSession();
     const {setStage} = dispatch;
 
-    const editBook = () => {
+    const editGame = () => {
         setStage(Stages.UPDATING);
         props.closeModal();
     }
@@ -15,32 +15,24 @@ export function BookModal(props: any) {
         <div className='d-flex justify-content-center'>
             <Modal show={true} onHide={props.closeModal}>
                 <Modal.Header closeButton>
-                    <Modal.Title>{props.book.TITLE}</Modal.Title>
+                    <Modal.Title>{props.movie.NAME}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <label>Author: {props.book.AUTHOR}</label>
+                    <label>Category: {props.movie.CATEGORY}</label>
                     <br />
-                    <label>Series: {props.book.SERIES}</label>
+                    <label>Type: {props.movie.TYPE}</label>
                     <br />
                     {
-                        props.book.SERIES !== "" &&
+                        props.movie.CATEGORY === "TV Show" &&
                         <div>
-                            <label>Series #: {props.book.SERIES_NUMBER}</label>
+                            <label>Season #: {props.movie.SEASON}</label>
                             <br />
                         </div>
                     }
-                    <label>Type: {props.book.TYPE}</label>
-                    <br />
-                    <label>Barcode: {props.book.BARCODE}</label>
-                    <br />
-                    <label>Year: {props.book.YEAR}</label>
-                    <br />
-                    <label>Read: {'' + props.book.READ}</label>
-                    <br />
-                    <label>Signed: {'' + props.book.SIGNED}</label>
+                    <label>Barcode: {props.movie.BARCODE}</label>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={editBook}>
+                    <Button variant="secondary" onClick={editGame}>
                         Edit
                     </Button>
                     <Button variant="secondary" onClick={props.closeModal}>

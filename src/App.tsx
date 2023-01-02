@@ -4,6 +4,8 @@ import { useLocation } from 'react-router-dom'
 import { Books } from './components/Books';
 import { useSession } from './hooks/useSession';
 import { Games } from './components/Games';
+import { Musics } from './components/Music';
+import { Movies } from './components/Movies';
 
 function App() {
     const location = useLocation();
@@ -17,9 +19,11 @@ function App() {
             <Header />
             {signedIn &&
                 <div>
+                    {path === '/' && <Home />}
                     {path === '/books' && <Books />}
                     {path === '/games' && <Games />}
-                    {path === '/' && <Home />}
+                    {path === '/music' && <Musics />}
+                    {path === '/movies' && <Movies />}
                 </div>
             }
         </div>
